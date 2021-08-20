@@ -1,13 +1,14 @@
-import React, {useEffect, useState} from 'react';
-import style from './Main.module.css'
-import {useDispatch, useSelector} from "react-redux";
-import {fetchCurerencyThunk} from "../../v5-redusers/mainReduser";
-import {AppRootStateType} from "../../store";
-import {CurrencyType} from "../../v6-Api/exchange-api";
+import React, { useState} from 'react';
 import {Paper, Box} from "@material-ui/core";
-
+import {CopyToClipboard} from 'react-copy-to-clipboard';
 export function CurrencyElement(props: CurrencyElementType) {
-const [rateBord, setRateBord]=useState(props.rate)
+
+
+
+const [valueCur, setValueCur]=useState({
+    value: [props.date, props.name, props.rate].join(' '),
+    copied: false,
+})
 
     return (
         <Paper key={props.id}>
@@ -20,11 +21,11 @@ const [rateBord, setRateBord]=useState(props.rate)
             <Box>
                 <span>Курс: </span> {props.rate} BYN
             </Box>
-            <button>Copy</button>
-            {/*<CopyToClipboard text={rateBord}*/}
-            {/*                 onCopy={() => setRateBord({copied: true})}>*/}
-            {/*    <button>Copy to clipboard with button</button>*/}
-            {/*</CopyToClipboard>*/}
+
+            <CopyToClipboard text={valueCur.value}
+                             onCopy={() => setValueCur({copied: true, value: [props.rate, props.name, props.date].join(' ')})}>
+                <button>Copy to clipboard</button>
+            </CopyToClipboard>
         </Paper>
 
     )

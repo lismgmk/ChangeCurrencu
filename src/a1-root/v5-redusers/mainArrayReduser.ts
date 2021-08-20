@@ -13,9 +13,7 @@ export const mainArrayReduser = (state: Array<string> = ['USD', 'RUB', 'EUR'], a
     }
 }
 
-
 export const addElArrayAC = (el: string) => ({type: "ADD_ELEM", el}) as const
 export const delElArrayAC = (el: string) => ({type: "DEL_ELEM", el}) as const
 
-
-
+// 2021-08-21T00:00:00
