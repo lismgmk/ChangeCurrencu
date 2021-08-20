@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import style from './Main.module.css'
 import {useDispatch, useSelector} from "react-redux";
 import {fetchCurerencyThunk} from "../../v5-redusers/mainReduser";
@@ -7,7 +7,7 @@ import {CurrencyType} from "../../v6-Api/exchange-api";
 import {Paper, Box} from "@material-ui/core";
 
 export function CurrencyElement(props: CurrencyElementType) {
-
+const [rateBord, setRateBord]=useState(props.rate)
 
     return (
         <Paper key={props.id}>
@@ -21,7 +21,10 @@ export function CurrencyElement(props: CurrencyElementType) {
                 <span>Курс: </span> {props.rate} BYN
             </Box>
             <button>Copy</button>
-
+            {/*<CopyToClipboard text={rateBord}*/}
+            {/*                 onCopy={() => setRateBord({copied: true})}>*/}
+            {/*    <button>Copy to clipboard with button</button>*/}
+            {/*</CopyToClipboard>*/}
         </Paper>
 
     )
