@@ -5,14 +5,23 @@ import {AppRootStateType} from "../store";
 import {CurrencyType} from "../v6-Api/exchange-api";
 import { fetchAllCurerencyThunk} from "../v5-redusers/setReduser";
 import {addElArrayAC, delElArrayAC} from "../v5-redusers/mainArrayReduser";
-import {Button, Select} from "@material-ui/core";
+import {Button, makeStyles, Select} from "@material-ui/core";
 
+const useStyles = makeStyles((theme) => ({
+    margin: {
+        margin: theme.spacing(2),
+    },
+    extendedIcon: {
+        marginRight: theme.spacing(2),
+    },
+}));
 
 export function SetExchange() {
     useEffect(()=>{
     dispatch(fetchAllCurerencyThunk())
 },[])
 
+    const classes = useStyles();
 
     const allCurrency = useSelector<AppRootStateType, Array<CurrencyType>>(state => state.set);
     const mainArray = useSelector<AppRootStateType, Array<string>>(state => state.mainArr);
@@ -46,11 +55,11 @@ export function SetExchange() {
                 onChange={(e)=>{
             setSelect(e.currentTarget.value)
         }}>
-            <option value="" selected disabled>Please select an currensy...</option>
+            <option value="" disabled>Please select an currensy...</option>
             {allCurrency && options}
         </select>
-        <Button variant="contained" color="primary" onClick={addCurrencu}>Add Currencu</Button>
-        <Button variant="contained" color="primary" onClick={deleteCurrencu}>Delete Currencu</Button>
+        <Button className={classes.margin} variant="contained" color="primary" onClick={addCurrencu}>Add Currencu</Button>
+        <Button className={classes.margin} variant="contained" color="primary" onClick={deleteCurrencu}>Delete Currencu</Button>
     </div>
   )
 }
