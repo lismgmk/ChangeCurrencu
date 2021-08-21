@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
-import {Paper, Box} from "@material-ui/core";
+import {Paper, Box, Button} from "@material-ui/core";
 import {CopyToClipboard} from 'react-copy-to-clipboard';
+import style from '../../v1-Main/Main.module.css'
 
 export function CurrencyElement(props: CurrencyElementType) {
 
@@ -13,25 +14,28 @@ export function CurrencyElement(props: CurrencyElementType) {
     })
 
     return (
-        <Paper key={props.id}>
-            <Box color="red">
-                <span>Дата:  </span>{dateToday}
-            </Box>
-            <Box>
-                <span>Валюта:  </span> {props.name}
-            </Box>
-            <Box>
-                <span>Курс: </span> {props.rate} BYN
-            </Box>
 
-            <CopyToClipboard text={valueCur.value}
-                             onCopy={() => setValueCur({
-                                 copied: true,
-                                 value: [props.rate, props.name, props.date].join(' ')
-                             })}>
-                <button>Copy to clipboard</button>
-            </CopyToClipboard>
-        </Paper>
+            <div className={style.papers} key={props.id}>
+                <Box color="red">
+                    <span>Дата:  </span>{dateToday}
+                </Box>
+                <Box>
+                    <span>Валюта:  </span> {props.name}
+                </Box>
+                <Box>
+                    <span>Курс: </span> {props.rate} BYN
+                </Box>
+
+                <CopyToClipboard text={valueCur.value}
+                                 onCopy={() => setValueCur({
+                                     copied: true,
+                                     value: [props.rate, props.name, props.date].join(' ')
+                                 })}>
+                    <Button variant="contained" color="primary">Copy to clipboard</Button>
+                </CopyToClipboard>
+            </div>
+
+
 
     )
 

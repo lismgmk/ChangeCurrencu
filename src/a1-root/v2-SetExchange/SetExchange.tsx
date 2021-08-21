@@ -5,6 +5,7 @@ import {AppRootStateType} from "../store";
 import {CurrencyType} from "../v6-Api/exchange-api";
 import { fetchAllCurerencyThunk} from "../v5-redusers/setReduser";
 import {addElArrayAC, delElArrayAC} from "../v5-redusers/mainArrayReduser";
+import {Button, Select} from "@material-ui/core";
 
 
 export function SetExchange() {
@@ -48,8 +49,8 @@ export function SetExchange() {
             <option value="" selected disabled>Please select an currensy...</option>
             {allCurrency && options}
         </select>
-        <button onClick={addCurrencu}>Add Currencu</button>
-        <button onClick={deleteCurrencu}>Delete Currencu</button>
+        <Button variant="contained" color="primary" onClick={addCurrencu}>Add Currencu</Button>
+        <Button variant="contained" color="primary" onClick={deleteCurrencu}>Delete Currencu</Button>
     </div>
   )
 }

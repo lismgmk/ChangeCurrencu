@@ -3,16 +3,16 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './a1-root/App';
 import reportWebVitals from './reportWebVitals';
-import {BrowserRouter} from "react-router-dom";
+import {BrowserRouter, HashRouter} from "react-router-dom";
 import {Provider} from "react-redux";
 import {store} from "./a1-root/store";
 
 ReactDOM.render(
-    <BrowserRouter>
+    <HashRouter>
         <Provider store={store}>
             <App/>
         </Provider>
-    </BrowserRouter>,
+    </HashRouter>,
     document.getElementById('root')
 );
 

@@ -7,6 +7,7 @@ import {
 import {AppRootStateType} from "../store";
 import {CurrencyType} from "../v6-Api/exchange-api";
 import {CurrencyElement} from "../v4-components/CurrencyElements/CurrensyElement";
+import {Button} from "@material-ui/core";
 
 
 function Main() {
@@ -37,7 +38,7 @@ function Main() {
                     )
                 })
             }
-            <button onClick={refreshData}>Refresh</button>
+            <Button variant="contained" color="primary" onClick={refreshData}>Refresh</Button>
         </div>
     )
 }

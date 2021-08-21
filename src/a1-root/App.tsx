@@ -4,6 +4,7 @@ import style from './App.module.css'
 import Main from "./v1-Main/Main";
 import {SetExchange} from "./v2-SetExchange/SetExchange";
 import Page_404 from "./v3-Page_404/Page_404";
+import {Button} from "@material-ui/core";
 
 
 
@@ -11,7 +12,7 @@ function App() {
     return (
         <>
             <div className={style.App}>
-                <NavLink to={PATH.EXCHANG_MAIN} activeClassName={style.activeLink}>Main</NavLink>
+               <NavLink to={PATH.EXCHANG_MAIN} activeClassName={style.activeLink}>Main</NavLink>
                 <NavLink to={PATH.EXCHANG_SET} activeClassName={style.activeLink}>Set</NavLink>
 
 
@@ -19,6 +20,7 @@ function App() {
             <Switch>
                 <Route path={PATH.EXCHANG} exact render={() => ()=><Main/>}/>
                 <Route path={PATH.EXCHANG_START} exact render={() => ()=><Main/>}/>
+                <Route path={PATH.EXCHANG_PET} exact render={() => ()=><Main/>}/>
 
                 <Route exact path={PATH.EXCHANG_MAIN} render={()=><Main/> }/>
                 <Route exact path={PATH.EXCHANG_SET} render={()=><SetExchange/> }/>
@@ -34,6 +36,7 @@ export default App
 
 export const PATH = {
     EXCHANG: '/',
+    EXCHANG_PET: '/My-Pet-Project/',
     EXCHANG_START: '/exchang',
     EXCHANG_MAIN: '/exchang/main',
     EXCHANG_SET: '/exchang/setReduser',
