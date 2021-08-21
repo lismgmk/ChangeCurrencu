@@ -17,7 +17,8 @@ function App() {
 
             </div>
             <Switch>
-                <Route path={PATH.EXCHANG} exact render={() => <Redirect to={PATH.EXCHANG_MAIN}/>}/>
+                <Route path={PATH.EXCHANG} exact render={() => ()=><Main/>}/>
+                <Route path={PATH.EXCHANG_START} exact render={() => ()=><Main/>}/>
 
                 <Route exact path={PATH.EXCHANG_MAIN} render={()=><Main/> }/>
                 <Route exact path={PATH.EXCHANG_SET} render={()=><SetExchange/> }/>
@@ -33,6 +34,7 @@ export default App
 
 export const PATH = {
     EXCHANG: '/',
+    EXCHANG_START: '/exchang',
     EXCHANG_MAIN: '/exchang/main',
     EXCHANG_SET: '/exchang/setReduser',
     EXCHANG_404: '/exchang/404',
