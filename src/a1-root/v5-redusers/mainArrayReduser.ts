@@ -7,7 +7,7 @@ export const mainArrayReduser = (state: Array<string> = ['USD', 'RUB', 'EUR'], a
         case "ADD_ELEM":
             return [...state, action.el]
         case "DEL_ELEM":
-            return [...state].filter(item => item != action.el)
+            return [...state].filter(item => item !== action.el)
          default:
             return state
     }

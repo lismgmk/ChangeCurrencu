@@ -14,8 +14,7 @@ export function CurrencyElement(props: CurrencyElementType) {
     })
 
     return (
-
-            <div className={style.papers} key={props.id}>
+            <div className={style.papers}>
                 <Box color="red">
                     <span>Дата:  </span>{dateToday}
                 </Box>
@@ -25,12 +24,17 @@ export function CurrencyElement(props: CurrencyElementType) {
                 <Box>
                     <span>Курс: </span> {props.rate} BYN
                 </Box>
+                <Box>
+                    <span>Abbreviation </span> {props.abbreviation}
+                </Box>
 
                 <CopyToClipboard text={valueCur.value}
-                                 onCopy={() => setValueCur({
+                                 onCopy={() => {
+                                     alert('Copied To Clipboard')
+                                     setValueCur({
                                      copied: true,
                                      value: [props.rate, props.name, props.date].join(' ')
-                                 })}>
+                                 })}}>
                     <Button variant="contained" color="primary">Copy to clipboard</Button>
                 </CopyToClipboard>
             </div>
@@ -46,4 +50,5 @@ type CurrencyElementType = {
     date: string
     name: string
     rate: string
+    abbreviation: string
 }

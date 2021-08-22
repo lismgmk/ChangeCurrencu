@@ -3,9 +3,10 @@ import style from './Set.module.css'
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../store";
 import {CurrencyType} from "../v6-Api/exchange-api";
-import { fetchAllCurerencyThunk} from "../v5-redusers/setReduser";
+import {fetchAllCurerencyThunk} from "../v5-redusers/setReduser";
 import {addElArrayAC, delElArrayAC} from "../v5-redusers/mainArrayReduser";
-import {Button, makeStyles, Select} from "@material-ui/core";
+import {Button, Container, ListItem, ListItemText, makeStyles, Select, TextField} from "@material-ui/core";
+
 
 const useStyles = makeStyles((theme) => ({
     margin: {
@@ -17,9 +18,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export function SetExchange() {
-    useEffect(()=>{
-    dispatch(fetchAllCurerencyThunk())
-},[])
+    useEffect(() => {
+        dispatch(fetchAllCurerencyThunk())
+    }, [])
 
     const classes = useStyles();
 
@@ -28,39 +29,112 @@ export function SetExchange() {
     const dispatch = useDispatch();
 
 
-    const options = allCurrency.map(i=>{
-      return  <option
-          value={i.Cur_Abbreviation}
-      selected={mainArray.includes(i.Cur_Abbreviation)}
-      >
-          {i.Cur_Name}
-      </option>
+    const abbreviatureCurrensy = allCurrency.map(i => {
+        return i.Cur_Abbreviation
     })
 
-    const[select, setSelect]=useState('')
-    const addCurrencu =()=>{
+    const [select, setSelect] = useState('')
+    const [inputs, setInput] = useState('')
+    const [hideInputs, setHideInputs] = useState(true)
+    const [deleteInputs, setDeleteInputs] = useState('')
+
+    let err: boolean = true
+    let inputsArray: Array<string> = abbreviatureCurrensy.filter((i, index) => {
+        if (inputs.length == 1) {
+            if (i[0] == inputs[0].toUpperCase()) {
+                err = false
+                return true
+            }
+        }
+        if (inputs.length == 2) {
+            if (i[0] == inputs[0].toUpperCase() && i[1] == inputs[1].toUpperCase()) {
+                err = false
+                return true
+            }
+        }
+        if (inputs.length == 3) {
+            if (i[0] == inputs[0].toUpperCase() && i[1] == inputs[1].toUpperCase() && i[2] == inputs[2].toUpperCase()) {
+                err = false
+                return true
+            }
+        }
+        if (inputs.length == 0) {
+            err = false
+        }
+
+    })
+
+    const addCurrencu = () => {
         dispatch(addElArrayAC(select))
+        setInput('')
+        inputsArray = []
+        setSelect('')
+        setHideInputs(true)
+        alert('Currency added')
     }
-    const deleteCurrencu =()=>{
-        dispatch(delElArrayAC(select))
-    }
 
 
-  return (
-    <div className={style.App}>
+    return (
+        <Container>
+            <div className={style.App}>
+                <TextField
+                    error={err}
+                    id="filled-textarea"
+                    label={err ? "Такой нет валюты" : "enter abbreviation here..."}
+                    multiline
+                    variant="filled"
 
-        <select
-            size={allCurrency.length+1}
-            multiple
-                onChange={(e)=>{
-            setSelect(e.currentTarget.value)
-        }}>
-            <option value="" disabled>Please select an currensy...</option>
-            {allCurrency && options}
-        </select>
-        <Button className={classes.margin} variant="contained" color="primary" onClick={addCurrencu}>Add Currencu</Button>
-        <Button className={classes.margin} variant="contained" color="primary" onClick={deleteCurrencu}>Delete Currencu</Button>
-    </div>
-  )
+                    value={inputs}
+                    onChange={(e) => {
+                        setInput(e.currentTarget.value)
+                    }}
+                />
+                <ul>
+                    {hideInputs && inputsArray.map((i, index) => {
+                        return <ListItem
+                            key={index*5}
+                            button>
+                            <ListItemText
+
+                                onClick={() => {
+                                    setHideInputs(false)
+                                    setInput(i)
+                                    setSelect(i)
+                                }}
+                                primary={i}
+                            /></ListItem>
+                    })
+                    }
+
+
+                </ul>
+                <Button className={classes.margin} variant="contained" color="primary" onClick={addCurrencu}>Add
+                    Currencu</Button>
+
+                {mainArray.map((i, index) => {
+                    return <ListItem
+                        key={index*10}
+                        button>
+                        <ListItemText
+                            key={index*3}
+                            primary={i}
+                        />
+                        <Button key={index*2} className={classes.margin} variant="contained" color="primary" onClick={()=>{
+                            dispatch(delElArrayAC(i))
+                            alert('Currency deketed')
+                        }
+
+                        }>Delete
+                            Currencu</Button>
+                    </ListItem>
+
+
+
+                })}
+
+            </div>
+        </Container>
+
+    )
 }
 

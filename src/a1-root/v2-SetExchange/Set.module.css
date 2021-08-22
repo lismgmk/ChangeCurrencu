@@ -1,11 +1,15 @@
 .App {
     display: flex;
-    flex-direction: row;
-    justify-content: space-around;
+    flex-direction: column;
+    justify-content: center;
+    width: 650px;
+    align-items: center;
+    border: 2px solid;
 }
 
 @media screen and (max-width: 720px) {
     .App {
+
         display: flex;
         flex-direction: column;
         justify-content: space-around;
