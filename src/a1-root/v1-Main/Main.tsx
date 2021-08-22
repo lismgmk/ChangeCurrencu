@@ -8,7 +8,7 @@ import {AppRootStateType} from "../store";
 import {CurrencyType} from "../v6-Api/exchange-api";
 import {CurrencyElement} from "../v4-components/CurrencyElements/CurrensyElement";
 import {Button, CircularProgress} from "@material-ui/core";
-
+import { nanoid } from 'nanoid'
 
 function Main() {
 
@@ -61,7 +61,7 @@ function Main() {
                 filterCurrency.map((i, index) => {
                     return (
                         <CurrencyElement
-                            key={index * 9}
+                            key={nanoid()}
                             id={i.Cur_ID}
                             date={i.Date}
                             name={i.Cur_Name}
@@ -75,6 +75,7 @@ function Main() {
             {buttonsName.map(i => {
                 return <>
                     <Button
+                        key={nanoid()}
                         variant="contained"
                         color="primary"
                         onClick={() => {

@@ -15,6 +15,7 @@ import {
     Select,
     TextField
 } from "@material-ui/core";
+import { nanoid } from 'nanoid'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -102,9 +103,10 @@ export function SetExchange() {
                 <ul>
                     {hideInputs && inputsArray.map((i, index) => {
                         return <ListItem
-                            key={index*5}
+                            key={nanoid()}
                             button>
                             <ListItemText
+                                key={nanoid()}
                                 onClick={() => {
                                     setHideInputs(false)
                                     setInput(i)
@@ -119,6 +121,7 @@ export function SetExchange() {
                 </ul>
 
                 {!hideInputs && <Button className={classes.margin}
+
                         disabled={err}
                         variant="contained"
                         color="primary"
@@ -127,13 +130,13 @@ export function SetExchange() {
 
                 {mainArray.map((i, index) => {
                     return <ListItem
-                        key={index*10}
+                        key={nanoid()}
                         button>
                         <ListItemText
-                            key={index*3}
+                            // key={nanoid()}
                             primary={i}
                         />
-                        <Button key={index*2} className={classes.margin} variant="contained" color="primary" onClick={()=>{
+                        <Button  className={classes.margin} variant="contained" color="primary" onClick={()=>{
                             dispatch(delElArrayAC(i))
                             alert('Currency deleted')
                         }
