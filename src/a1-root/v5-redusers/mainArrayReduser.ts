@@ -5,7 +5,8 @@ export const mainArrayReduser = (state: Array<string> = ['USD', 'RUB', 'EUR'], a
 ) => {
     switch (action.type) {
         case "ADD_ELEM":
-            return [...state, action.el]
+           return [...state].includes(action.el) ? [...state] : [...state, action.el]
+
         case "DEL_ELEM":
             return [...state].filter(item => item !== action.el)
          default:

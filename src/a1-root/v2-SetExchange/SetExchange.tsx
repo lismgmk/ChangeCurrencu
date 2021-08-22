@@ -5,7 +5,16 @@ import {AppRootStateType} from "../store";
 import {CurrencyType} from "../v6-Api/exchange-api";
 import {fetchAllCurerencyThunk} from "../v5-redusers/setReduser";
 import {addElArrayAC, delElArrayAC} from "../v5-redusers/mainArrayReduser";
-import {Button, Container, ListItem, ListItemText, makeStyles, Select, TextField} from "@material-ui/core";
+import {
+    Button,
+    CircularProgress,
+    Container,
+    ListItem,
+    ListItemText,
+    makeStyles,
+    Select,
+    TextField
+} from "@material-ui/core";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -36,7 +45,7 @@ export function SetExchange() {
     const [select, setSelect] = useState('')
     const [inputs, setInput] = useState('')
     const [hideInputs, setHideInputs] = useState(true)
-    const [deleteInputs, setDeleteInputs] = useState('')
+    const initial = useSelector<AppRootStateType, boolean>(state => state.initial.initial)
 
     let err: boolean = true
     let inputsArray: Array<string> = abbreviatureCurrensy.filter((i, index) => {
@@ -73,17 +82,18 @@ export function SetExchange() {
         alert('Currency added')
     }
 
-
+    if (initial) {
+        return <CircularProgress color="secondary"/>
+    }
     return (
         <Container>
             <div className={style.App}>
                 <TextField
                     error={err}
                     id="filled-textarea"
-                    label={err ? "Такой нет валюты" : "enter abbreviation here..."}
+                    label={err ? "there is no such currency" : "enter abbreviation here..."}
                     multiline
                     variant="filled"
-
                     value={inputs}
                     onChange={(e) => {
                         setInput(e.currentTarget.value)
@@ -95,7 +105,6 @@ export function SetExchange() {
                             key={index*5}
                             button>
                             <ListItemText
-
                                 onClick={() => {
                                     setHideInputs(false)
                                     setInput(i)
@@ -108,8 +117,13 @@ export function SetExchange() {
 
 
                 </ul>
-                <Button className={classes.margin} variant="contained" color="primary" onClick={addCurrencu}>Add
-                    Currencu</Button>
+
+                {!hideInputs && <Button className={classes.margin}
+                        disabled={err}
+                        variant="contained"
+                        color="primary"
+                        onClick={addCurrencu}>
+                    Add Currencu</Button>}
 
                 {mainArray.map((i, index) => {
                     return <ListItem
@@ -121,17 +135,12 @@ export function SetExchange() {
                         />
                         <Button key={index*2} className={classes.margin} variant="contained" color="primary" onClick={()=>{
                             dispatch(delElArrayAC(i))
-                            alert('Currency deketed')
+                            alert('Currency deleted')
                         }
-
                         }>Delete
                             Currencu</Button>
                     </ListItem>
-
-
-
                 })}
-
             </div>
         </Container>
 

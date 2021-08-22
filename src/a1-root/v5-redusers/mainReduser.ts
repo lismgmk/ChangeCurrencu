@@ -1,12 +1,13 @@
 import {CurrencyType, exchangeAPI} from "../v6-Api/exchange-api";
 import {AppRootStateType} from "../store";
+import {initialCurrencuAC} from "./initialReduser";
 
 export const mainReduser = (state: Array<CurrencyType> = [], action: ReturnType<typeof addCurrencuAC>
 ) => {
     switch (action.type) {
         case "ADD_DATA":
             return action.dataArr
-         default:
+        default:
             return state
     }
 }
@@ -16,12 +17,15 @@ export const addCurrencuAC = (dataArr: Array<CurrencyType>) => ({type: "ADD_DATA
 export const fetchCurerencyThunk = () => (dispatch: any, getState: AppRootStateType) => {
 // @ts-ignore
     let currencyArray = getState().mainArr
+    dispatch(initialCurrencuAC(true))
     exchangeAPI.getCurrency()
         .then(data => {
+
                 const dataArr = data.data.filter(i => {
                     return currencyArray.includes(i.Cur_Abbreviation)
                 })
                 dispatch(addCurrencuAC(dataArr))
+                dispatch(initialCurrencuAC(false))
             }
         )
 }

@@ -49,6 +49,6 @@ type CurrencyElementType = {
     id: number
     date: string
     name: string
-    rate: string
+    rate: number
     abbreviation: string
 }
