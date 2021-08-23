@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export function SetExchange() {
+export const SetExchange = React.memo(() => {
 
     const [alert, setAlert] = useState<boolean>(false);
     const [alertAdd, setAlertAdd] = useState<boolean>(false);
@@ -244,5 +244,5 @@ export function SetExchange() {
         </Container>
 
     )
-}
+})
 

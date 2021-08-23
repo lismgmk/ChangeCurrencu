@@ -8,10 +8,10 @@ import {AppRootStateType} from "../store";
 import {CurrencyType} from "../v6-Api/exchange-api";
 import {CurrencyElement} from "../v4-components/CurrencyElements/CurrensyElement";
 import {Box, Button, CircularProgress, Container, Grid} from "@material-ui/core";
-import { nanoid } from 'nanoid'
+import {nanoid} from 'nanoid'
 import {Alert} from "@material-ui/lab";
 
-function Main() {
+const Main = React.memo(() => {
     const [alert, setAlert] = useState<boolean>(false)
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -112,31 +112,31 @@ function Main() {
                 }
             </Grid>
 
-        <Grid container justifyContent="center" spacing={2}
-        style={{marginBottom: "10px"}}
-        >
-            {buttonsName.map(i => {
-                return <Grid item>
-                    <Button
-                        key={nanoid()}
-                        variant="contained"
-                        color="primary"
-                        onClick={() => {
-                            setFilterId(i)
-                        }
-                        }>
-                        Sort by {i}
-                    </Button>
+            <Grid container justifyContent="center" spacing={2}
+                  style={{marginBottom: "10px"}}
+            >
+                {buttonsName.map(i => {
+                    return <Grid item>
+                        <Button
+                            key={nanoid()}
+                            variant="contained"
+                            color="primary"
+                            onClick={() => {
+                                setFilterId(i)
+                            }
+                            }>
+                            Sort by {i}
+                        </Button>
+                    </Grid>
+                })}
+                <Grid item>
+                    <Button variant="contained" color="primary" onClick={refreshData}>Refrech</Button>
                 </Grid>
-            })}
-            <Grid item>
-            <Button variant="contained" color="primary" onClick={refreshData}>Refrech</Button>
             </Grid>
-        </Grid>
 
             {alert && <Alert variant="filled" severity="success">Data refreshed</Alert>}
         </Container>
     )
-};
+})
 
 export default Main
