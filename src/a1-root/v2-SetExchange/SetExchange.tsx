@@ -8,14 +8,15 @@ import {addElArrayAC, delElArrayAC} from "../v5-redusers/mainArrayReduser";
 import {
     Button,
     CircularProgress,
-    Container,
+    Container, Grid,
     ListItem,
     ListItemText,
-    makeStyles,
+    makeStyles, Paper,
     Select,
     TextField
 } from "@material-ui/core";
-import { nanoid } from 'nanoid'
+import {nanoid} from 'nanoid'
+import {Alert} from "@material-ui/lab";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -28,6 +29,24 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export function SetExchange() {
+
+    const [alert, setAlert] = useState<boolean>(false);
+    const [alertAdd, setAlertAdd] = useState<boolean>(false);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setAlertAdd(false)
+        }, 3000);
+        return () => clearTimeout(timer);
+    }, [alertAdd]);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setAlert(false)
+        }, 3000);
+        return () => clearTimeout(timer);
+    }, [alert]);
+
     useEffect(() => {
         dispatch(fetchAllCurerencyThunk())
     }, [])
@@ -80,71 +99,148 @@ export function SetExchange() {
         inputsArray = []
         setSelect('')
         setHideInputs(true)
-        alert('Currency added')
+        setAlertAdd(true)
     }
-
     if (initial) {
-        return <CircularProgress color="secondary"/>
+        return <Grid
+            container
+            xs={12}
+            justifyContent="center"
+        >
+            <CircularProgress color="secondary"
+                              size={100}
+            />
+        </Grid>
     }
     return (
         <Container>
-            <div className={style.App}>
-                <TextField
-                    error={err}
-                    id="filled-textarea"
-                    label={err ? "there is no such currency" : "enter abbreviation here..."}
-                    multiline
-                    variant="filled"
-                    value={inputs}
-                    onChange={(e) => {
-                        setInput(e.currentTarget.value)
-                    }}
-                />
-                <ul>
+            <Grid container
+                  spacing={1}
+                  justifyContent="center"
+                  direction="column"
+                  alignItems="center"
+            >
+
+                <Grid
+                    container
+                    justifyContent="center"
+                    direction="column"
+                    alignItems="center"
+                    spacing={2}
+                    xs={12}
+                >
+                    <Grid
+                        item
+                        spacing={2}
+                        xs={12}
+                    >
+                        <h1>Add currency</h1>
+                    </Grid>
+
+                    <Grid item
+                          spacing={1}
+                          xs={12}
+                    >
+                        <TextField
+                            style={{backgroundColor: '#cfe8fc', marginBottom: '10px'}}
+                            error={err}
+                            id="filled-textarea"
+                            label={err ? "there is no such currency" : "enter abbreviation here..."}
+                            multiline
+                            variant="filled"
+                            value={inputs}
+                            onChange={(e) => {
+                                setInput(e.currentTarget.value)
+                            }}
+                        />
+                    </Grid>
+
+
                     {hideInputs && inputsArray.map((i, index) => {
-                        return <ListItem
-                            key={nanoid()}
-                            button>
-                            <ListItemText
-                                key={nanoid()}
-                                onClick={() => {
-                                    setHideInputs(false)
-                                    setInput(i)
-                                    setSelect(i)
+                        return <Grid item
+                                     xs={12}
+                        >
+                            <ListItem
+                                style={{
+                                    backgroundColor: '#cfe8fc',
+                                    width: '150px',
+                                    textAlign: "center",
+                                    marginBottom: "10px",
+                                    marginTop: "10px"
                                 }}
-                                primary={i}
-                            /></ListItem>
+                                key={nanoid()}
+                                button>
+                                <ListItemText
+
+                                    onClick={() => {
+                                        setHideInputs(false)
+                                        setInput(i)
+                                        setSelect(i)
+                                    }}
+                                    primary={i}
+                                /></ListItem>
+                        </Grid>
+
                     })
                     }
 
+                    {alertAdd && <Alert variant="filled" severity="success">Currency added</Alert>}
+                    {!hideInputs &&
+                    <Grid item
+                          spacing={2}
+                          xs={12}
+                    >
+                        <Button className={classes.margin}
+                                disabled={err}
+                                variant="contained"
+                                color="primary"
+                                onClick={addCurrencu}>
+                            Add Currencu</Button>
+                    </Grid>
+                    }
+                </Grid>
 
-                </ul>
-
-                {!hideInputs && <Button className={classes.margin}
-
-                        disabled={err}
-                        variant="contained"
-                        color="primary"
-                        onClick={addCurrencu}>
-                    Add Currencu</Button>}
 
                 {mainArray.map((i, index) => {
-                    return <ListItem
-                        key={nanoid()}
-                        button>
-                        <ListItemText
-                            // key={nanoid()}
-                            primary={i}
-                        />
-                        <Button  className={classes.margin} variant="contained" color="primary" onClick={()=>{
-                            dispatch(delElArrayAC(i))
-                            alert('Currency deleted')
-                        }
-                        }>Delete
-                            Currencu</Button>
-                    </ListItem>
+                    return <Grid
+                        container
+                        xs
+                        justifyContent="center"
+                        spacing={2}
+                    >
+                        <ListItem
+                            key={nanoid()}
+                            button
+                            style={{
+                                backgroundColor: '#cfe8fc',
+                                width: '100vh',
+                                textAlign: "center",
+                                marginTop: "20px",
+                                marginBottom: "20px"
+                            }}
+                        >
+                            <ListItemText
+                                primary={i}
+                            />
+                            <Button variant="contained" color="primary" onClick={() => {
+                                dispatch(delElArrayAC(i))
+                                setAlert(true)
+                            }
+                            }>Delete
+                                Currencu</Button>
+
+                        </ListItem>
+                    </Grid>
+
+
                 })}
-            </div>
+                {alert && <Alert variant="filled"
+                                 severity="success">Currency deleted</Alert>
+
+                }
+
+
+            </Grid>
         </Container>
 
     )

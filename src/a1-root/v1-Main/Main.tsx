@@ -7,10 +7,18 @@ import {
 import {AppRootStateType} from "../store";
 import {CurrencyType} from "../v6-Api/exchange-api";
 import {CurrencyElement} from "../v4-components/CurrencyElements/CurrensyElement";
-import {Button, CircularProgress} from "@material-ui/core";
+import {Box, Button, CircularProgress, Container, Grid} from "@material-ui/core";
 import { nanoid } from 'nanoid'
+import {Alert} from "@material-ui/lab";
 
 function Main() {
+    const [alert, setAlert] = useState<boolean>(false)
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setAlert(false)
+        }, 3000);
+        return () => clearTimeout(timer);
+    }, [alert]);
 
 
     const [refresh, setRefresh] = useState(false)
@@ -28,15 +36,12 @@ function Main() {
 
     const refreshData = () => {
         setRefresh(!refresh)
-        alert('Data refreshed')
+        setAlert(true)
     }
 
     const setFilterId = (val: 'id' | 'abr' | 'name') => {
         setFilter(val)
-        alert(`Sort by ${val}`)
     }
-
-
     const buttonsName: Array<'id' | 'abr' | 'name'> = ['id', 'abr', 'name']
 
     let filterCurrency = currencu
@@ -53,27 +58,65 @@ function Main() {
 
 
     if (initial) {
-        return <CircularProgress color="secondary"/>
+        return <Grid
+            container
+            xs={12}
+            justifyContent="center"
+        >
+            <CircularProgress color="secondary"
+                              size={100}
+            />
+        </Grid>
     }
     return (
-        <div className={style.column}>
-            {
-                filterCurrency.map((i, index) => {
-                    return (
-                        <CurrencyElement
-                            key={nanoid()}
-                            id={i.Cur_ID}
-                            date={i.Date}
-                            name={i.Cur_Name}
-                            rate={Math.ceil((+i.Cur_OfficialRate) * 100) / 100}
-                            abbreviation={i.Cur_Abbreviation}
-                        />
-                    )
-                })
-            }
-        <>
+        <Container>
+            <Grid container>
+                <Grid item
+                      xs
+                >
+                    <h3>Date</h3>
+                </Grid>
+                <Grid item
+                      xs
+                >
+                    <h3>Currency</h3>
+                </Grid>
+                <Grid item
+                      xs
+                >
+                    <h3>Rates</h3>
+                </Grid>
+                <Grid item
+                      xs
+                >
+                    <h3>Abbreviation</h3>
+                </Grid>
+                <Grid item
+                      xs
+                >
+                    <h3>Copy to clipboard</h3>
+                </Grid>
+                {
+                    filterCurrency.map((i, index) => {
+                        return (
+                            <CurrencyElement
+                                key={nanoid()}
+                                id={i.Cur_ID}
+                                date={i.Date}
+                                name={i.Cur_Name}
+                                rate={Math.ceil((+i.Cur_OfficialRate) * 100) / 100}
+                                abbreviation={i.Cur_Abbreviation}
+                            />
+                        )
+                    })
+                }
+            </Grid>
+
+        <Grid container justifyContent="center" spacing={2}
+        style={{marginBottom: "10px"}}
+        >
             {buttonsName.map(i => {
-                return <>
+                return <Grid item>
                     <Button
                         key={nanoid()}
                         variant="contained"
@@ -84,14 +127,16 @@ function Main() {
                         }>
                         Sort by {i}
                     </Button>
-                </>
+                </Grid>
             })}
+            <Grid item>
             <Button variant="contained" color="primary" onClick={refreshData}>Refrech</Button>
-        </>
+            </Grid>
+        </Grid>
 
-
-        </div>
+            {alert && <Alert variant="filled" severity="success">Data refreshed</Alert>}
+        </Container>
     )
-}
+};
 
 export default Main

@@ -4,18 +4,32 @@ import style from './App.module.css'
 import Main from "./v1-Main/Main";
 import {SetExchange} from "./v2-SetExchange/SetExchange";
 import Page_404 from "./v3-Page_404/Page_404";
-import {Button} from "@material-ui/core";
+import {AppBar, Button, Grid, Paper, Typography} from "@material-ui/core";
 
 
 function App() {
     return (
         <div>
-            <div className={style.App}>
-                <NavLink to={PATH.EXCHANG_MAIN} activeClassName={style.activeLink}>Main</NavLink>
-                <NavLink to={PATH.EXCHANG_SET} activeClassName={style.activeLink}>Set</NavLink>
+            <AppBar position="static">
+                <Grid
+                    style={{margin: "30px"}}
+                    container
+                    justifyContent="space-around">
+                    <NavLink
+                        style={{textDecoration: "none", color: "white", fontSize: "26px"}}
+                        to={PATH.EXCHANG_MAIN} activeClassName={style.activeLink}>
+                        Main
+                    </NavLink>
+                    <NavLink
+                        style={{textDecoration: "none", color: "white", fontSize: "26px"}} to={PATH.EXCHANG_SET}
+                       >
+                        Set
+                    </NavLink>
+                </Grid>
 
 
-            </div>
+
+            </AppBar>
             <Switch>
                 <Route path={PATH.EXCHANG} exact render={() => <Redirect to={PATH.EXCHANG_MAIN}/>}/>
 
